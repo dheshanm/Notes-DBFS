@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "notes-dbfs": {
+      "hosting": {
+        "angular-firebase-int": [
+          "notes-dbfs"
+        ]
+      }
+    }
+  }
+}
