@@ -12,6 +12,7 @@ import { map, catchError } from 'rxjs/operators';
 export class FirebaseItemService {
   notesCollection: AngularFirestoreCollection<Note>;
   notes: Observable<Note[]>;
+  noteDoc: AngularFirestoreDocument<Note>;
 
   constructor(public afs:AngularFirestore) {
     this.notesCollection = this.afs.collection('notes', ref => ref.orderBy('title', 'asc'));
@@ -34,6 +35,11 @@ export class FirebaseItemService {
 
   addItem(item: Note) {
     this.notesCollection.add(item)
+  }
+
+  deleteItem(item: Note) {
+    this.noteDoc = this.afs.doc(`notes/${item.id}`);
+    this.noteDoc.delete();
   }
 };
 

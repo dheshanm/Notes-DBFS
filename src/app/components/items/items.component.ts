@@ -20,4 +20,9 @@ export class ItemsComponent implements OnInit {
     });
   }
 
+  deleteItem(event, item){
+    //console.log(`deleteItem(${event},${item.id}) Triggered`);
+    this.itemService.deleteItem(item);
+  }
+
 }
