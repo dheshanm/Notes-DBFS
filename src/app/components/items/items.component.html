@@ -1,6 +1,6 @@
 <div *ngIf='items?.length > 0 else noItems'>
-    <ul *ngFor='let item of items' class="collection">
-        <li class="collection-item"><b>{{ item.title }}</b>: {{ item.description }}</li>
+    <ul class="card" *ngFor='let item of items' class="collection card">
+        <li class="collection-item"><b>{{ item.id }}</b>: {{ item.description }}</li>
     </ul>
 </div>
 

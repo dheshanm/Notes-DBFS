@@ -4,6 +4,7 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument 
 import { Note } from '../models/note'
 
 import { Observable } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -13,11 +14,26 @@ export class FirebaseItemService {
   notes: Observable<Note[]>;
 
   constructor(public afs:AngularFirestore) {
-    this.notes = this.afs.collection('notes').valueChanges();
+    this.notesCollection = this.afs.collection('notes', ref => ref.orderBy('title', 'asc'));
+
+    // Mapping the ID to the model using 'map' and 'pipe'
+    //this.notes = this.notesCollection.valueChanges();
+    this.notes = this.notesCollection.snapshotChanges().pipe(
+      map(changes => {
+      return changes.map( a => {
+        const data = a.payload.doc.data() as Note;
+        data.id = a.payload.doc.id;
+        return data;
+      });
+    }));
   }
 
   getNotes() {
     return this.notes;
+  }
+
+  addItem(item: Note) {
+    this.notesCollection.add(item)
   }
 };
 
