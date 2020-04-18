@@ -29,17 +29,22 @@ export class FirebaseItemService {
     }));
   }
 
-  getNotes() {
+  getNotes(): Observable<Note[]> {
     return this.notes;
   }
 
-  addItem(item: Note) {
+  addItem(item: Note): void {
     this.notesCollection.add(item)
   }
 
   deleteItem(item: Note) {
     this.noteDoc = this.afs.doc(`notes/${item.id}`);
     this.noteDoc.delete();
+  }
+
+  updateItem(item: Note) {
+    this.noteDoc = this.afs.doc(`notes/${item.id}`);
+    this.noteDoc.update(item);
   }
 };
 
